@@ -67,7 +67,9 @@ function setFriend(obj) {
             ]);
         }
 
-        ymaps.route(route).then(
+        ymaps.route(route, {
+            mapStateAutoApply: true
+        }).then(
             function (route) {
                 friend_map.geoObjects.add(route);
             },
