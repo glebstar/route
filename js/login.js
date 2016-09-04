@@ -4,7 +4,7 @@
 $(document.ready = function(){
     $('.j-btn-login').on('click', function(){
         var data = {
-            url: 'http://31.184.195.194/api/v1/login',
+            url: '/login',
             phone: $('#inputPhone').val(),
             password: $('#inputPassword').val()
         };

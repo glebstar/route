@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST['url'])) {
-    $url = $_POST['url'];
+    $url =  'http://dev.pinradar.ru/api/v1' . $_POST['url'];
     $data = '';
     foreach ($_POST as $k=>$v) {
         if($k != 'url') {

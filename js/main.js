@@ -3,7 +3,7 @@
  */
 $(document.ready = function(){
     data = {
-        url: 'http://31.184.195.194/api/v1/user/watching?token=' + _token,
+        url: '/user/watching?token=' + _token,
     };
 
     $.post('/curl.php', data, function (data) {
@@ -34,7 +34,7 @@ function setFriend(obj) {
     $('#first_map').html('');
 
     data = {
-        url: 'http://31.184.195.194/api/v1/geo/points?token=' + _token,
+        url: '/geo/points?token=' + _token,
         id: $(obj).attr('data-id')
     };
 
@@ -61,17 +61,21 @@ function setFriend(obj) {
                 center: [points[points.length-1].lat, points[points.length-1].lan],
                 zoom: 16
             });
-            
+
             friend_map.controls.add('zoomControl');
         });
 
         var route = [];
 
         for(key in points) {
-            route.push([
-                points[key].lat,
-                points[key].lan
-            ]);
+            route.push({
+                type: 'wayPoint',
+                balloonContent: 'Оперный театр',
+                point: [
+                    points[key].lat,
+                    points[key].lan
+                ]
+            });
         }
 
         ymaps.route(route, {
