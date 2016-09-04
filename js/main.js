@@ -61,6 +61,8 @@ function setFriend(obj) {
                 center: [points[points.length-1].lat, points[points.length-1].lan],
                 zoom: 16
             });
+            
+            friend_map.controls.add('zoomControl');
         });
 
         var route = [];
