@@ -49,16 +49,6 @@ function setFriend(obj) {
             });
         }
 
-        /*
-        for(key in data.points) {
-            points.push({
-                geo: data.points[key].geo,
-                lat: data.points[key].geo.replace(/^(.+),.+$/, '$1'),
-                lan: data.points[key].geo.replace(/^.+,(.+)$/, '$1')
-            });
-        }
-        */
-
         var friend_map;
 
         ymaps.ready(function(){
@@ -75,15 +65,6 @@ function setFriend(obj) {
                 points[key].lat,
                 points[key].lan
             ]);
-            /*
-            myGeoObject = new ymaps.GeoObject({
-                geometry: {
-                    type: "Point",// тип геометрии - точка
-                    coordinates: [points[key].lat, points[key].lan] // координаты точки
-                }
-            });
-            friend_map.geoObjects.add(myGeoObject);
-            */
         }
 
         ymaps.route(route).then(
