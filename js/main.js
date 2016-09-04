@@ -39,6 +39,11 @@ function setFriend(obj) {
     };
 
     $.post('/curl.php', data, function (data) {
+        if (undefined == data.points) {
+            showLogin();
+            return false;
+        }
+
         var points = [];
 
         for(i=2; i>=0; i--) {
