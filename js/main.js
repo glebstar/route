@@ -53,7 +53,7 @@ function setFriend(obj) {
 
         ymaps.ready(function(){
             friend_map = new ymaps.Map("first_map", {
-                center: [points[0].lat, points[0].lan],
+                center: [points[points.length-1].lat, points[points.length-1].lan],
                 zoom: 16
             });
         });
