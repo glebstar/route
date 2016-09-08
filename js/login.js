@@ -24,6 +24,9 @@ $(document.ready = function(){
             _token = data.token;
             if (_remember) {
                 $.cookie('_token', _token, {expires: 10});
+            } else {
+                // запомнить на одну сессию
+                $.cookie('_token', _token);
             }
             showMain();
         }, 'json')
