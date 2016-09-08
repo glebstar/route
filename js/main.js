@@ -3,7 +3,7 @@
  */
 $(document.ready = function(){
     data = {
-        url: '/user/watching?token=' + _token,
+        url: '/user/watching?token=' + _token
     };
 
     $.post('/curl.php', data, function (data) {
@@ -27,7 +27,7 @@ $(document.ready = function(){
 
         // обновляем токен
         data = {
-            url: '/user/refresh?token=' + _token,
+            url: '/user/refresh?token=' + _token
         };
         if(_remember) {
             $.post('/curl.php', data, function (data) {
