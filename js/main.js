@@ -24,15 +24,15 @@ $(document.ready = function(){
                 $('.j-friends-not-ap').append('<a href="#" class="list-group-item j-friend-item disabled" data-id="' + data.users[key].user_id + '">' + data.users[key].name + '</a>');
             }
         }
-
-        // обновляем токен
-        data = {
-            url: '/user/refresh?token=' + _token
-        };
+        
         if(_remember) {
+            // обновляем токен
+            data = {
+                url: '/user/refresh?token=' + _token
+            };
             $.post('/curl.php', data, function (data) {
                 _token = data.token;
-                $.cookie('_token', _token, {expires: 10});
+                $.cookie('_token', _token, {expires: 30});
             });
         }
     });
