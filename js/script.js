@@ -2,13 +2,17 @@ var _token = false;
 var _remember = false;
 
 $(document.ready = function(){
+    _remember = $.cookie('_remember');
+    if (undefined == _remember || '0' == _remember) {
+        _remember = false;
+    }
+
     _token = $.cookie('_token');
 
     if (undefined == _token || ! _token || 'false' ==  _token) {
         // show login
         showLogin();
     } else {
-        _remember = true;
         showMain();
     }
 });
@@ -25,6 +29,9 @@ function showLogin() {
 
 function logout() {
     _token = false;
-    $.cookie('_token', _token, {expires: 10});
+    _remember = false;
+
+    $.cookie('_token', _token, {expires: 30});
+    $.cookie('_remember', 0, {expires: 30});
     window.location.href = '/';
 }

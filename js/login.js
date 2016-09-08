@@ -11,8 +11,10 @@ $(document.ready = function(){
 
         if ($('#inputRemember').prop("checked")) {
             _remember = true;
+            $.cookie('_remember', _remember, {expires: 30});
         } else {
             _remember = false;
+            $.cookie('_remember', 0, {expires: 30});
         }
 
         if (! data.phone || !data.password) {
@@ -23,7 +25,7 @@ $(document.ready = function(){
         $.post('/curl.php', data, function (data) {
             _token = data.token;
             if (_remember) {
-                $.cookie('_token', _token, {expires: 10});
+                $.cookie('_token', _token, {expires: 30});
             } else {
                 // запомнить на одну сессию
                 $.cookie('_token', _token);
