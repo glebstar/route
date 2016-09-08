@@ -1,4 +1,5 @@
 var _token = false;
+var _remember = false;
 
 $(document.ready = function(){
     _token = $.cookie('_token');
@@ -7,6 +8,7 @@ $(document.ready = function(){
         // show login
         showLogin();
     } else {
+        _remember = true;
         showMain();
     }
 });

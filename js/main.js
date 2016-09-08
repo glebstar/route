@@ -24,6 +24,17 @@ $(document.ready = function(){
                 $('.j-friends-not-ap').append('<a href="#" class="list-group-item j-friend-item disabled" data-id="' + data.users[key].user_id + '">' + data.users[key].name + '</a>');
             }
         }
+
+        // обновляем токен
+        data = {
+            url: '/user/refresh?token=' + _token,
+        };
+        if(_remember) {
+            $.post('/curl.php', data, function (data) {
+                _token = data.token;
+                $.cookie('_token', _token, {expires: 10});
+            });
+        }
     });
 });
 
@@ -70,7 +81,6 @@ function setFriend(obj) {
         for(key in points) {
             route.push({
                 type: 'wayPoint',
-                balloonContent: 'Оперный театр',
                 point: [
                     points[key].lat,
                     points[key].lan

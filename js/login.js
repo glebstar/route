@@ -9,6 +9,12 @@ $(document.ready = function(){
             password: $('#inputPassword').val()
         };
 
+        if ($('#inputRemember').prop("checked")) {
+            _remember = true;
+        } else {
+            _remember = false;
+        }
+
         if (! data.phone || !data.password) {
             return false;
         }
@@ -16,7 +22,9 @@ $(document.ready = function(){
 
         $.post('/curl.php', data, function (data) {
             _token = data.token;
-            $.cookie('_token', _token, {expires: 10});
+            if (_remember) {
+                $.cookie('_token', _token, {expires: 10});
+            }
             showMain();
         }, 'json')
 
