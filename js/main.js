@@ -57,11 +57,17 @@ function setFriend(obj) {
 
         var points = [];
 
-        for(i=2; i>=0; i--) {
+        var max = 300;
+        if ((data.points.length - 1) < max) {
+            max = data.points.length - 1;
+        }
+
+        for(var i=max; i>=0; i--) {
             points.push({
                 geo: data.points[i].geo,
                 lat: data.points[i].geo.replace(/^(.+),.+$/, '$1'),
-                lan: data.points[i].geo.replace(/^.+,(.+)$/, '$1')
+                lan: data.points[i].geo.replace(/^.+,(.+)$/, '$1'),
+                time: data.points[i].created_at
             });
         }
 
@@ -74,8 +80,26 @@ function setFriend(obj) {
             });
 
             friend_map.controls.add('zoomControl');
+
+            var cnt = 1;
+            for(key in points) {
+                myGeoObject = new ymaps.GeoObject({
+                    geometry: {
+                        type: "Point",// тип геометрии - точка
+                        coordinates: [points[key].lat, points[key].lan] // координаты точки
+                    },
+                    properties: {
+                        iconContent: cnt,
+                        balloonContent: points[key].time
+                    }
+                });
+
+                friend_map.geoObjects.add(myGeoObject);
+                cnt++;
+            }
         });
 
+        /*
         var route = [];
 
         for(key in points) {
@@ -98,6 +122,7 @@ function setFriend(obj) {
                 alert("Возникла ошибка: " + error.message);
             }
         );
+        */
     });
 
     return false;
