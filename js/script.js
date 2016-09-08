@@ -3,7 +3,7 @@ var _remember = false;
 
 $(document.ready = function(){
     _remember = $.cookie('_remember');
-    if (undefined == _remember || '0' == _remember) {
+    if (undefined == _remember || 'non' == _remember) {
         _remember = false;
     }
 
@@ -32,6 +32,6 @@ function logout() {
     _remember = false;
 
     $.cookie('_token', _token, {expires: 30});
-    $.cookie('_remember', 0, {expires: 30});
+    $.cookie('_remember', 'non', {expires: 30});
     window.location.href = '/';
 }

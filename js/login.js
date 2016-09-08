@@ -14,7 +14,7 @@ $(document.ready = function(){
             $.cookie('_remember', _remember, {expires: 30});
         } else {
             _remember = false;
-            $.cookie('_remember', 0, {expires: 30});
+            $.cookie('_remember', 'non', {expires: 30});
         }
 
         if (! data.phone || !data.password) {
