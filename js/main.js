@@ -11,6 +11,7 @@ $(document.ready = function(){
             showLogin();
             return false;
         }
+
         for(key in data.users) {
             if (data.users[key].approved) {
                 $('.j-lbl-friends').removeClass('hidden');
@@ -24,6 +25,15 @@ $(document.ready = function(){
                 $('.j-friends-not-ap').append('<a href="#" class="list-group-item j-friend-item disabled" data-id="' + data.users[key].user_id + '">' + data.users[key].name + '</a>');
             }
         }
+
+        data = {
+            url: '/user/aboutme?token=' + _token
+        };
+
+        $.post('/curl.php', data, function (data) {
+            selfId = data.user.id;
+            $('.j-my-trac-btn').removeClass('hidden');
+        });
         
         if(_remember) {
             // обновляем токен
@@ -36,17 +46,38 @@ $(document.ready = function(){
             });
         }
     });
+
+    $('.j-my-trac-btn').on('click', function(){
+        setMyTrac();
+    });
 });
 
 function setFriend(obj) {
+    $('.j-my-trac-btn').removeClass('active');
     $('.j-friend-item').removeClass('active');
     $(obj).addClass('active');
 
+    showMap($(obj).attr('data-id'));
+
+    return false;
+}
+
+function setMyTrac()
+{
+    $('.j-my-trac-btn').addClass('active');
+    $('.j-friend-item').removeClass('active');
+    showMap(selfId);
+
+    return false;
+}
+
+function showMap(userId)
+{
     $('#first_map').html('');
 
     data = {
         url: '/geo/points?token=' + _token,
-        id: $(obj).attr('data-id')
+        id: userId
     };
 
     $.post('/curl.php', data, function (data) {
@@ -57,7 +88,7 @@ function setFriend(obj) {
 
         var points = [];
 
-        var max = 300;
+        var max = 999;
         if ((data.points.length - 1) < max) {
             max = data.points.length - 1;
         }
@@ -90,7 +121,7 @@ function setFriend(obj) {
                     },
                     properties: {
                         iconContent: cnt,
-                        balloonContent: points[key].time
+                        balloonContent: points[key].lat + ', ' + points[key].lan + ' ' + points[key].time
                     }
                 });
 
@@ -100,30 +131,28 @@ function setFriend(obj) {
         });
 
         /*
-        var route = [];
+         var route = [];
 
-        for(key in points) {
-            route.push({
-                type: 'wayPoint',
-                point: [
-                    points[key].lat,
-                    points[key].lan
-                ]
-            });
-        }
+         for(key in points) {
+         route.push({
+         type: 'wayPoint',
+         point: [
+         points[key].lat,
+         points[key].lan
+         ]
+         });
+         }
 
-        ymaps.route(route, {
-            mapStateAutoApply: true
-        }).then(
-            function (route) {
-                friend_map.geoObjects.add(route);
-            },
-            function (error) {
-                alert("Возникла ошибка: " + error.message);
-            }
-        );
-        */
+         ymaps.route(route, {
+         mapStateAutoApply: true
+         }).then(
+         function (route) {
+         friend_map.geoObjects.add(route);
+         },
+         function (error) {
+         alert("Возникла ошибка: " + error.message);
+         }
+         );
+         */
     });
-
-    return false;
 }

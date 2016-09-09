@@ -1,5 +1,6 @@
 var _token = false;
 var _remember = false;
+var selfId = 0;
 
 $(document.ready = function(){
     _remember = $.cookie('_remember');
