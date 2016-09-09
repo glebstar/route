@@ -33,6 +33,7 @@ $(document.ready = function(){
         $.post('/curl.php', data, function (data) {
             selfId = data.user.id;
             $('.j-my-trac-btn').removeClass('hidden');
+            setMyTrac();
         });
         
         if(_remember) {
