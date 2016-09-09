@@ -100,7 +100,9 @@ function showMap(userId)
                 geo: data.points[i].geo,
                 lat: data.points[i].geo.replace(/^(.+),.+$/, '$1'),
                 lan: data.points[i].geo.replace(/^.+,(.+)$/, '$1'),
-                time: data.points[i].created_at
+                time: data.points[i].created_at,
+                fromtime: data.points[i].fromtime,
+                totime: data.points[i].totime
             });
         }
 
@@ -116,6 +118,12 @@ function showMap(userId)
 
             var cnt = 1;
             for(key in points) {
+                if (points[key].fromtime == points[key].totime) {
+                    var ballon = points[key].lat + ', ' + points[key].lan + ' (' + points[key].fromtime + ')';
+                } else {
+                    var ballon = points[key].lat + ', ' + points[key].lan + ' (' + points[key].fromtime + ' - ' + points[key].totime + ')';
+                }
+
                 myGeoObject = new ymaps.GeoObject({
                     geometry: {
                         type: "Point",// тип геометрии - точка
@@ -123,7 +131,7 @@ function showMap(userId)
                     },
                     properties: {
                         iconContent: cnt,
-                        balloonContent: points[key].lat + ', ' + points[key].lan + ' ' + points[key].time
+                        balloonContent: ballon
                     }
                 });
 
