@@ -5,6 +5,8 @@
 var max_points = 300;
 
 $(document.ready = function(){
+    $('.j-max-points input').val(max_points);
+
     data = {
         url: '/user/watching?token=' + _token
     };
@@ -55,6 +57,11 @@ $(document.ready = function(){
     $('.j-my-trac-btn').on('click', function(){
         setMyTrac();
     });
+
+    $('.j-max-points button').on('click', function () {
+        max_points = parseInt($('.j-max-points input').val());
+        setMyTrac();
+    });
 });
 
 function setFriend(obj) {
@@ -93,7 +100,7 @@ function showMap(userId)
 
         var points = [];
 
-        var max = max_points;
+        var max = max_points - 1;
 
         if ((data.points.length - 1) < max) {
             max = data.points.length - 1;
