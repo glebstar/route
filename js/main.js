@@ -90,7 +90,7 @@ function showMap(userId)
 
         var points = [];
 
-        var max = 999;
+        var max = 299;
         if ((data.points.length - 1) < max) {
             max = data.points.length - 1;
         }
