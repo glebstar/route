@@ -1,6 +1,9 @@
 /**
  * Created by gleb on 04.09.2016.
  */
+
+var max_points = 300;
+
 $(document.ready = function(){
     data = {
         url: '/user/watching?token=' + _token
@@ -90,7 +93,8 @@ function showMap(userId)
 
         var points = [];
 
-        var max = 299;
+        var max = max_points;
+
         if ((data.points.length - 1) < max) {
             max = data.points.length - 1;
         }
