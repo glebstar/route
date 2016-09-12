@@ -274,8 +274,10 @@ function showMapVectors(userId)
                 hintContent: "Маршрут"
             }, {
                 draggable: false,
+                strokeStyle: 'solid',
                 strokeColor: '#f00',
-                strokeWidth: 5,
+                strokeWidth: 4,
+                opacity: 0.6
             });
             // Добавляем линию на карту.
             friend_map.geoObjects.add(polyline);
