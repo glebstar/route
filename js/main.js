@@ -196,7 +196,9 @@ function showMapVectors(userId)
                 geo: data.points[i].geo,
                 lat: data.points[i].geo.replace(/^(.+),.+$/, '$1'),
                 lon: data.points[i].geo.replace(/^.+,(.+)$/, '$1'),
-                stay: data.points[i].stay
+                stay: data.points[i].stay,
+                fromtime: data.points[i].fromtime,
+                totime: data.points[i].totime
             });
         }
 
@@ -215,20 +217,25 @@ function showMapVectors(userId)
             var cnt = 1;
             for(key in points) {
                 var ballon = '';
+                var ballonFooter = '';
                 // первую и последнюю точку отмечаем специальными значками если это не остановки
                 if (points[key].stay == 0 && (key == 0 || key == points.length-1)) {
                     if (0 == key) {
                         ballon = 'Начало маршрута';
+                        ballonFooter = points[key].fromtime;
                     } else {
                         ballon = 'Конец маршрута';
+                        ballonFooter = points[key].totime;
                     }
+
                     myGeoObject = new ymaps.GeoObject({
                         geometry: {
                             type: "Point",// тип геометрии - точка
                             coordinates: [points[key].lat, points[key].lon] // координаты точки
                         },
                         properties: {
-                            balloonContent: ballon
+                            balloonContent: ballon,
+                            balloonContentFooter: ballonFooter
                         }
                     }, {
                         iconImageHref: '/i/ig.png',
@@ -251,6 +258,8 @@ function showMapVectors(userId)
                         ballon = 'Стоянка: ' + getFormatTime(points[key].stay);
                     }
 
+                    ballonFooter = points[key].totime;
+
                     myGeoObject = new ymaps.GeoObject({
                         geometry: {
                             type: "Point",// тип геометрии - точка
@@ -258,7 +267,8 @@ function showMapVectors(userId)
                         },
                         properties: {
                             iconContent: cnt,
-                            balloonContent: ballon
+                            balloonContent: ballon,
+                            balloonContentFooter: ballonFooter
                         }
                     });
 
