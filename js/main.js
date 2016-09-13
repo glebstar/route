@@ -21,15 +21,13 @@ $(document.ready = function(){
 
         for(key in data.users) {
             if (data.users[key].approved) {
-                $('.j-lbl-friends').removeClass('hidden');
-                $('.j-friends').append('<a href="#" class="list-group-item j-friend-item" data-id="' + data.users[key].user_id + '" onclick="return setFriend(this);">' + data.users[key].name + '</a>');
+                $('#i-watching-sep').after('<li class="j-friend-item" data-id="' + data.users[key].user_id + '" onclick="return setFriend(this);"><a href="#">' + data.users[key].name + '</a></li>');
             }
         }
 
         for(key in data.users) {
             if (! data.users[key].approved) {
-                $('.j-lbl-friends-not-ap').removeClass('hidden');
-                $('.j-friends-not-ap').append('<a href="#" class="list-group-item j-friend-item disabled" data-id="' + data.users[key].user_id + '">' + data.users[key].name + '</a>');
+                $('#i-watching-not-sp-sep').after('<li class="j-friend-item disabled" data-id="' + data.users[key].user_id + '" onclick="return false;"><a href="#">' + data.users[key].name + '</a></li>');
             }
         }
 
@@ -63,7 +61,7 @@ $(document.ready = function(){
 
     $('.j-max-points button').on('click', function () {
         max_points = parseInt($('.j-max-points input').val());
-        setMyTrac();
+        showMap(currrent_user);
     });
 
     $('.j-change-map').on('click', function(){
@@ -98,7 +96,7 @@ function setMyTrac()
 
 function showMap(userId)
 {
-    $('#first_map').html('');
+    $('#friend_map').html('');
 
     if ('vector' == current_map) {
         return showMapVectors(userId);
@@ -137,7 +135,7 @@ function showMap(userId)
         var friend_map;
 
         ymaps.ready(function(){
-            friend_map = new ymaps.Map("first_map", {
+            friend_map = new ymaps.Map("friend_map", {
                 center: [points[points.length-1].lat, points[points.length-1].lan],
                 zoom: 16
             });
@@ -191,7 +189,7 @@ function showMapVectors(userId)
             max = data.points.length - 1;
         }
 
-        for(var i=0; i<=max; i++) {
+        for(var i=data.points.length - 1 - max; i<=data.points.length - 1; i++) {
             points.push({
                 geo: data.points[i].geo,
                 lat: data.points[i].geo.replace(/^(.+),.+$/, '$1'),
@@ -205,7 +203,7 @@ function showMapVectors(userId)
         var friend_map;
 
         ymaps.ready(function(){
-            friend_map = new ymaps.Map("first_map", {
+            friend_map = new ymaps.Map("friend_map", {
                 center: [points[points.length-1].lat, points[points.length-1].lon],
                 zoom: 16
             });
