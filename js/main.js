@@ -93,11 +93,11 @@ $(document.ready = function(){
 
                 timerAddGeo = setInterval(function () {
                     addGeo();
-                }, 2000);
+                }, 1000);
 
                 timerSentGeo = setInterval(function () {
                     sentLocation();
-                }, 120000);
+                }, 60000);
             }
         });
     }
