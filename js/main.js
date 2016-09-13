@@ -7,8 +7,8 @@ var currrent_user = 0;
 var current_map = 'vector';
 var support_geo = false;
 var sent_geo = false;
-var timerAddGeo = false;
-var timerSentGeo = false;
+var timerAddGeo = 0;
+var timerSentGeo = 0;
 
 var addGeos = [];
 
@@ -281,7 +281,7 @@ function showMapVectors(userId)
 
 
                 if (points[key].stay > 0) {
-                    if (points[key].stay < 60) {
+                    if (points[key].stay < 120) {
                         ballon = 'Остановка: ' + getFormatTime(points[key].stay);
                     } else {
                         ballon = 'Стоянка: ' + getFormatTime(points[key].stay);
@@ -366,18 +366,9 @@ function sentLocation() {
         geos: sentGeos
     };
 
-    $.post('/curl.php', data, function (data) {}, 'json');
-
-    /*
-    navigator.geolocation.getCurrentPosition(function (position) {
-        data = {
-            url: '/geo?token=' + _token,
-            geo: position.coords.latitude + ', ' + position.coords.longitude
-        };
-
-        $.post('/curl.php', data, function (data) {}, 'json');
-    });
-    */
+    $.post('/curl.php', data, function (data) {
+        // @todo если отправка неудачная, нужно отправлять повторно
+    }, 'json');
 }
 
 function supportGeo() {
