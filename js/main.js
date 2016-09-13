@@ -59,6 +59,19 @@ $(document.ready = function(){
                 $.cookie('_token', _token, {expires: 30});
             });
         }
+
+        // получение списка "За мной наблюдают"
+        data = {
+            url: '/user/watchingme?token=' + _token
+        };
+
+        $.post('/curl.php', data, function (data) {
+            for(key in data.users) {
+                if (data.users[key].approved) {
+                    $('#watching-me-list').append('<li class="disabled"><a href="#" onclick="return false;">' + data.users[key].name + '</a></li>');
+                }
+            }
+        });
     });
 
     $('.j-my-trac-btn').on('click', function(){
