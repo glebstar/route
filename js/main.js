@@ -5,6 +5,9 @@
 var max_points = 300;
 var currrent_user = 0;
 var current_map = 'vector';
+var support_geo = false;
+var sent_geo = false;
+var timerGeo = false;
 
 $(document.ready = function(){
     $('.j-max-points input').val(max_points);
@@ -70,6 +73,25 @@ $(document.ready = function(){
         current_map = $(this).attr('data-view');
         showMap(currrent_user);
     });
+
+    if (supportGeo()) {
+        support_geo = true;
+        $('.j-set-geo').removeClass('hidden');
+
+        $('.j-set-geo').on('click', function(){
+            if (sent_geo) {
+                clearInterval(timerGeo);
+                sent_geo = false;
+                $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
+            } else {
+                sent_geo = true;
+                $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
+                timerGeo = setInterval(function () {
+                    sentLocation();
+                }, 2000)
+            }
+        });
+    }
 });
 
 function setFriend(obj) {
@@ -305,4 +327,22 @@ function getFormatTime (time) {
     hour = (hour < 10) ? '0'+hour : hour;
 
     return hour + ':' + minute + ':' + second;
+}
+
+function sentLocation() {
+    if (! sent_geo) {
+        return false;
+    }
+    navigator.geolocation.getCurrentPosition(function (position) {
+        data = {
+            url: '/geo?token=' + _token,
+            geo: position.coords.latitude + ', ' + position.coords.longitude
+        };
+
+        $.post('/curl.php', data, function (data) {}, 'json');
+    });
+}
+
+function supportGeo() {
+    return !!navigator.geolocation;
 }
