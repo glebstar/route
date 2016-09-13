@@ -88,7 +88,7 @@ $(document.ready = function(){
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
                 timerGeo = setInterval(function () {
                     sentLocation();
-                }, 2000)
+                }, 2500)
             }
         });
     }
