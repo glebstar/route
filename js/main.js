@@ -7,7 +7,10 @@ var currrent_user = 0;
 var current_map = 'vector';
 var support_geo = false;
 var sent_geo = false;
-var timerGeo = false;
+var timerAddGeo = false;
+var timerSentGeo = false;
+
+var addGeos = [];
 
 $(document.ready = function(){
     $('.j-max-points input').val(max_points);
@@ -80,16 +83,21 @@ $(document.ready = function(){
 
         $('.j-set-geo').on('click', function(){
             if (sent_geo) {
-                clearInterval(timerGeo);
+                clearInterval(timerAddGeo);
+                clearInterval(timerSentGeo);
                 sent_geo = false;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
             } else {
                 sent_geo = true;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
-                timerGeo = setInterval(function () {
-                    return false;
+
+                timerAddGeo = setInterval(function () {
+                    addGeo();
+                }, 2000);
+
+                timerSentGeo = setInterval(function () {
                     sentLocation();
-                }, 2500)
+                }, 120000);
             }
         });
     }
@@ -330,10 +338,37 @@ function getFormatTime (time) {
     return hour + ':' + minute + ':' + second;
 }
 
+function addGeo()
+{
+    if (! sent_geo) {
+        return false;
+    }
+
+    navigator.geolocation.getCurrentPosition(function (position) {
+        addGeos.push({
+            time: Math.floor(Date.now() / 1000),
+            geo: position.coords.latitude + ', ' + position.coords.longitude
+        });
+    });
+}
+
 function sentLocation() {
     if (! sent_geo) {
         return false;
     }
+
+    var sentGeos = JSON.stringify(addGeos);
+    addGeos = [];
+
+    data = {
+        url: '/geo/package?token=' + _token,
+        time: Math.floor(Date.now() / 1000),
+        geos: sentGeos
+    };
+
+    $.post('/curl.php', data, function (data) {}, 'json');
+
+    /*
     navigator.geolocation.getCurrentPosition(function (position) {
         data = {
             url: '/geo?token=' + _token,
@@ -342,6 +377,7 @@ function sentLocation() {
 
         $.post('/curl.php', data, function (data) {}, 'json');
     });
+    */
 }
 
 function supportGeo() {
