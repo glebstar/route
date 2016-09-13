@@ -106,7 +106,7 @@ $(document.ready = function(){
 
                 timerAddGeo = setInterval(function () {
                     addGeo();
-                }, 1000);
+                }, 1500);
 
                 timerSentGeo = setInterval(function () {
                     sentLocation();
@@ -357,10 +357,57 @@ function addGeo()
         return false;
     }
 
+    var _gs = [];
+
     navigator.geolocation.getCurrentPosition(function (position) {
-        addGeos.push({
-            time: Math.floor(Date.now() / 1000),
-            geo: position.coords.latitude + ', ' + position.coords.longitude
+        _gs.push({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude
+        });
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            _gs.push({
+                lat: position.coords.latitude,
+                lon: position.coords.longitude
+            });
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+                _gs.push({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                });
+
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    _gs.push({
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    });
+                });
+
+                // вычислим максимум точек наиболее близких друг к другу
+                var minOfset = 999999999999999;
+                var minId = 0;
+                var _gss = [];
+
+                for(var key in _gs) {
+                    var offset = 0;
+                    for (var key2 in _gs) {
+                        var latOffset = _gs[key].lat - _gs[key2].lat;
+                        var lonOffset = _gs[key].lon - _gs[key2].lon;
+                        offset += (latOffset + lonOffset);
+                    }
+
+                    if (offset < minOfset) {
+                        minOfset = offset;
+                        minId = key;
+                    }
+                }
+
+                addGeos.push({
+                    time: Math.floor(Date.now() / 1000),
+                    geo: _gs[minId].lat + ', ' + _gs[minId].lon
+                });
+            });
         });
     });
 }
