@@ -102,7 +102,7 @@ $(document.ready = function(){
             if (sent_geo) {
                 //clearInterval(timerAddGeo);
                 navigator.geolocation.clearWatch(timerAddGeo);
-                clearInterval(timerSentGeo);
+                //clearInterval(timerSentGeo);
                 sent_geo = false;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
                 $('.j-anim-sent a').attr('title', 'Гео-данные не передаются');
@@ -421,7 +421,16 @@ function addGeo()
 }
 
 function sentLocation() {
-    if (! sent_geo) {
+    if (! sent_geo && addGeos.length == 0) {
+        clearInterval(timerSentGeo);
+        var date = new Date();
+        $('.log-title').after('<p><span class="label label-warning"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Отправка остановлена</b></p>');
+        return false;
+    }
+
+    if (addGeos.length == 0) {
+        var date = new Date();
+        $('.log-title').after('<p><span class="label label-warning"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Отправлять нечего...</b></p>');
         return false;
     }
 
