@@ -98,7 +98,8 @@ $(document.ready = function(){
 
         $('.j-set-geo, .j-anim-sent').on('click', function(){
             if (sent_geo) {
-                clearInterval(timerAddGeo);
+                //clearInterval(timerAddGeo);
+                navigator.geolocation.clearWatch(timerAddGeo);
                 clearInterval(timerSentGeo);
                 sent_geo = false;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
@@ -110,9 +111,22 @@ $(document.ready = function(){
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
                 $('.j-anim-sent a').attr('title', 'Гео-данные передаются');
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-ban-circle').addClass('glyphicon-signal');
+                $('.j-anim-sent a').css('color', '#fff');
 
+                timerAddGeo = navigator.geolocation.watchPosition(function (position) {
+                    addGeos.push({
+                        time: Math.floor(Date.now() / 1000),
+                        geo: position.coords.latitude + ', ' + position.coords.longitude
+                    });
+                }, function(e){
+                    return false;
+                }, {
+                    enableHighAccuracy: true
+                });
+
+                /*
                 timerAddGeo = setInterval(function () {
-                    addGeo();
+                    //addGeo();
                     if (animSent) {
                         animSent = false;
                         $('.j-anim-sent a').css('color', '#9d9d9d');
@@ -121,10 +135,11 @@ $(document.ready = function(){
                         $('.j-anim-sent a').css('color', '#fff');
                     }
                 }, 5000);
+                */
 
                 timerSentGeo = setInterval(function () {
                     sentLocation();
-                }, 120000);
+                }, 60000);
             }
         });
     }
