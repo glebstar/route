@@ -120,7 +120,7 @@ $(document.ready = function(){
                 $('.j-anim-sent a').css('color', '#fff');
 
                 var supportsWakeLock = "requestWakeLock" in navigator;
-                if (! supportsWakeLock) {
+                if (supportsWakeLock) {
                     wakeLock = navigator.requestWakeLock('gps');
                     var date = new Date();
                     $('.log-title').after('<p><span class="label label-success"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : Работа в режиме блокировки возможна</p>');
