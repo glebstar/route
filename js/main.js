@@ -119,13 +119,13 @@ $(document.ready = function(){
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-ban-circle').addClass('glyphicon-signal');
                 $('.j-anim-sent a').css('color', '#fff');
 
-                if (undefined != window.navigator.requestWakeLock) {
-                    wakeLock = window.navigator.requestWakeLock('gps');
+                if ('undefined' != typeof(navigator.requestWakeLock)) {
+                    wakeLock = navigator.requestWakeLock('gps');
                     var date = new Date();
                     $('.log-title').after('<p><span class="label label-success"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : Работа в режиме блокировки возможна</p>');
                 } else {
                     var date = new Date();
-                    $('.log-title').after('<p><span class="label label-warning"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : Работа в режиме блокировки невозможна</p>');
+                    $('.log-title').after('<p><span class="label label-warning"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : navigator.requestWakeLock не определена</p>');
                 }
 
                 timerAddGeo = navigator.geolocation.watchPosition(function (position) {
