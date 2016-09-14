@@ -9,6 +9,7 @@ var support_geo = false;
 var sent_geo = false;
 var timerAddGeo = 0;
 var timerSentGeo = 0;
+var wakeLock;
 
 var animSent = false;
 
@@ -102,6 +103,9 @@ $(document.ready = function(){
             if (sent_geo) {
                 //clearInterval(timerAddGeo);
                 navigator.geolocation.clearWatch(timerAddGeo);
+                if (undefined != wakeLock) {
+                    wakeLock.unlock();
+                }
                 //clearInterval(timerSentGeo);
                 sent_geo = false;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
@@ -114,6 +118,15 @@ $(document.ready = function(){
                 $('.j-anim-sent a').attr('title', 'Гео-данные передаются');
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-ban-circle').addClass('glyphicon-signal');
                 $('.j-anim-sent a').css('color', '#fff');
+
+                if (undefined != window.navigator.requestWakeLock) {
+                    wakeLock = window.navigator.requestWakeLock('gps');
+                    var date = new Date();
+                    $('.log-title').after('<p><span class="label label-success"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : Работа в режиме блокировки возможна</p>');
+                } else {
+                    var date = new Date();
+                    $('.log-title').after('<p><span class="label label-warning"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : Работа в режиме блокировки невозможна</p>');
+                }
 
                 timerAddGeo = navigator.geolocation.watchPosition(function (position) {
                     var coord = position.coords.latitude + ', ' + position.coords.longitude;
