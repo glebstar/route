@@ -436,6 +436,13 @@ function sentLocation() {
 
     $.post('/curl.php', data, function (data) {
         // @todo если отправка неудачная, нужно отправлять повторно
+
+        var date = new Date();
+        if (undefined != data.result) {
+            $('.log-title').after('<p><span class="label label-success"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Успешная отправка на сервер</b></p>');
+        } else {
+            $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Ошибка отправки на сервер</b></p>');
+        }
     }, 'json');
 }
 
