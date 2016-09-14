@@ -119,7 +119,8 @@ $(document.ready = function(){
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-ban-circle').addClass('glyphicon-signal');
                 $('.j-anim-sent a').css('color', '#fff');
 
-                if ('undefined' != typeof(navigator.requestWakeLock)) {
+                var supportsWakeLock = "requestWakeLock" in navigator;
+                if (! supportsWakeLock) {
                     wakeLock = navigator.requestWakeLock('gps');
                     var date = new Date();
                     $('.log-title').after('<p><span class="label label-success"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : Работа в режиме блокировки возможна</p>');
@@ -431,6 +432,10 @@ function sentLocation() {
         var date = new Date();
         if (undefined != data.result) {
             $('.log-title').after('<p><span class="label label-success"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Успешная отправка на сервер</b></p>');
+            var supportsVibrate = "vibrate" in navigator;
+            if (supportsVibrate) {
+                navigator.vibrate(1200);
+            }
         } else {
             $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Ошибка отправки на сервер</b></p>');
         }
