@@ -95,6 +95,7 @@ $(document.ready = function(){
     if (supportGeo()) {
         support_geo = true;
         $('.j-set-geo').removeClass('hidden');
+        $('.j-show-log').removeClass('hidden');
 
         $('.j-set-geo, .j-anim-sent').on('click', function(){
             if (sent_geo) {
@@ -114,11 +115,16 @@ $(document.ready = function(){
                 $('.j-anim-sent a').css('color', '#fff');
 
                 timerAddGeo = navigator.geolocation.watchPosition(function (position) {
+                    var coord = position.coords.latitude + ', ' + position.coords.longitude;
                     addGeos.push({
                         time: Math.floor(Date.now() / 1000),
-                        geo: position.coords.latitude + ', ' + position.coords.longitude
+                        geo: coord
                     });
+                    var date = new Date();
+                    //$('#radar-log').append('<p>' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ': ' + coord  + '</p>');
+                    $('.log-title').after('<p><span class="label label-primary"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + coord  + '</p>');
                 }, function(e){
+                    $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + e.message  + '</p>');
                     return false;
                 }, {
                     enableHighAccuracy: true
@@ -141,6 +147,10 @@ $(document.ready = function(){
                     sentLocation();
                 }, 60000);
             }
+        });
+
+        $('.j-show-log').on('click', function(){
+            $('#friend_map').html($('#radar-log').html());
         });
     }
 });
