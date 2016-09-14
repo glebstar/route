@@ -10,6 +10,8 @@ var sent_geo = false;
 var timerAddGeo = 0;
 var timerSentGeo = 0;
 
+var animSent = false;
+
 var addGeos = [];
 
 $(document.ready = function(){
@@ -94,18 +96,29 @@ $(document.ready = function(){
         support_geo = true;
         $('.j-set-geo').removeClass('hidden');
 
-        $('.j-set-geo').on('click', function(){
+        $('.j-set-geo, .j-anim-sent').on('click', function(){
             if (sent_geo) {
                 clearInterval(timerAddGeo);
                 clearInterval(timerSentGeo);
                 sent_geo = false;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
+                $('.j-anim-sent a').attr('title', 'Гео-данные не передаются');
+                $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-signal').addClass('glyphicon-ban-circle');
             } else {
                 sent_geo = true;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
+                $('.j-anim-sent a').attr('title', 'Гео-данные передаются');
+                $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-ban-circle').addClass('glyphicon-signal');
 
                 timerAddGeo = setInterval(function () {
                     addGeo();
+                    if (animSent) {
+                        animSent = false;
+                        $('.j-anim-sent a').css('color', '#9d9d9d');
+                    } else {
+                        animSent = true;
+                        $('.j-anim-sent a').css('color', '#fff');
+                    }
                 }, 1000);
 
                 timerSentGeo = setInterval(function () {
