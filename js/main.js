@@ -87,6 +87,7 @@ $(document.ready = function(){
 
     $('.j-change-map').on('click', function(){
         $('.j-change-map').removeClass('active');
+        $('.j-show-log').removeClass('active');
         $(this).addClass('active');
         current_map = $(this).attr('data-view');
         showMap(currrent_user);
@@ -150,6 +151,8 @@ $(document.ready = function(){
         });
 
         $('.j-show-log').on('click', function(){
+            $('.j-change-map').removeClass('active');
+            $('.j-show-log').addClass('active');
             $('#friend_map').html($('#radar-log').html());
         });
     }
