@@ -124,6 +124,15 @@ $(document.ready = function(){
                     var date = new Date();
                     //$('#radar-log').append('<p>' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ': ' + coord  + '</p>');
                     $('.log-title').after('<p><span class="label label-primary"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + coord  + '</p>');
+
+                    // анимация сбора данных
+                    if (animSent) {
+                        animSent = false;
+                        $('.j-anim-sent a').css('color', '#9d9d9d');
+                    } else {
+                        animSent = true;
+                        $('.j-anim-sent a').css('color', '#fff');
+                    }
                 }, function(e){
                     $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + e.message  + '</p>');
                     return false;
