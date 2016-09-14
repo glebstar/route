@@ -376,6 +376,10 @@ function addGeo()
             time: Math.floor(Date.now() / 1000),
             geo: position.coords.latitude + ', ' + position.coords.longitude
         });
+    }, function(){
+        return false;
+    }, {
+        enableHighAccuracy: true
     });
 }
 
