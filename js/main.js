@@ -104,6 +104,7 @@ $(document.ready = function(){
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-map-marker"></i> Отправлять гео-данные');
                 $('.j-anim-sent a').attr('title', 'Гео-данные не передаются');
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-signal').addClass('glyphicon-ban-circle');
+                $('.j-anim-sent a').css('color', '#9d9d9d');
             } else {
                 sent_geo = true;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
