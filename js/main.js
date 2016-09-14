@@ -120,11 +120,11 @@ $(document.ready = function(){
                         animSent = true;
                         $('.j-anim-sent a').css('color', '#fff');
                     }
-                }, 1000);
+                }, 5000);
 
                 timerSentGeo = setInterval(function () {
                     sentLocation();
-                }, 60000);
+                }, 120000);
             }
         });
     }
@@ -376,7 +376,7 @@ function addGeo()
             time: Math.floor(Date.now() / 1000),
             geo: position.coords.latitude + ', ' + position.coords.longitude
         });
-    }, function(){
+    }, function(e){
         return false;
     }, {
         enableHighAccuracy: true
