@@ -136,7 +136,8 @@ $(document.ready = function(){
                     $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + e.message  + '</p>');
                     return false;
                 }, {
-                    enableHighAccuracy: true
+                    enableHighAccuracy: true,
+                    maximumAge: 0
                 });
 
                 timerSentGeo = setInterval(function () {
