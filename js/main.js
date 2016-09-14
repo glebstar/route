@@ -122,7 +122,6 @@ $(document.ready = function(){
                         geo: coord
                     });
                     var date = new Date();
-                    //$('#radar-log').append('<p>' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ': ' + coord  + '</p>');
                     $('.log-title').after('<p><span class="label label-primary"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + coord  + '</p>');
 
                     // анимация сбора данных
@@ -139,19 +138,6 @@ $(document.ready = function(){
                 }, {
                     enableHighAccuracy: true
                 });
-
-                /*
-                timerAddGeo = setInterval(function () {
-                    //addGeo();
-                    if (animSent) {
-                        animSent = false;
-                        $('.j-anim-sent a').css('color', '#9d9d9d');
-                    } else {
-                        animSent = true;
-                        $('.j-anim-sent a').css('color', '#fff');
-                    }
-                }, 5000);
-                */
 
                 timerSentGeo = setInterval(function () {
                     sentLocation();
@@ -400,24 +386,6 @@ function getFormatTime (time) {
     hour = (hour < 10) ? '0'+hour : hour;
 
     return hour + ':' + minute + ':' + second;
-}
-
-function addGeo()
-{
-    if (! sent_geo) {
-        return false;
-    }
-
-    navigator.geolocation.getCurrentPosition(function (position) {
-        addGeos.push({
-            time: Math.floor(Date.now() / 1000),
-            geo: position.coords.latitude + ', ' + position.coords.longitude
-        });
-    }, function(e){
-        return false;
-    }, {
-        enableHighAccuracy: true
-    });
 }
 
 function sentLocation() {
