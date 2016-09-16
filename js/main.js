@@ -252,6 +252,9 @@ function showMap(userId)
         var points = [];
 
         var max = max_points - 1;
+        if (filterfromtime || filtertotime) {
+            max = 20000;
+        }
 
         if ((data.points.length - 1) < max) {
             max = data.points.length - 1;
@@ -334,6 +337,9 @@ function showMapVectors(userId)
         var points = [];
 
         var max = max_points - 1;
+        if (filterfromtime || filtertotime) {
+            max = 20000;
+        }
 
         if ((data.points.length - 1) < max) {
             max = data.points.length - 1;
