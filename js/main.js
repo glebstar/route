@@ -243,6 +243,12 @@ function showMap(userId)
             return false;
         }
 
+        if (0 == data.points.length) {
+            // нет данных
+            $('#friend_map').html('<span class="label label-info">Нет данных для данного пользователя и установленного фильтра</span><p style="margin-top: 20px;"><img src="/i/logo.png"> </p>');
+            return false;
+        }
+
         var points = [];
 
         var max = max_points - 1;
@@ -316,6 +322,12 @@ function showMapVectors(userId)
     $.post('/curl.php', data, function (data) {
         if (undefined == data.points) {
             showLogin();
+            return false;
+        }
+
+        if (0 == data.points.length) {
+            // нет данных
+            $('#friend_map').html('<span class="label label-info">Нет данных для данного пользователя и установленного фильтра</span><p style="margin-top: 20px;"><img src="/i/logo.png"> </p>');
             return false;
         }
 
