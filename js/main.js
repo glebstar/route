@@ -88,6 +88,11 @@ $(document.ready = function(){
 
     $('.j-max-points button').on('click', function () {
         max_points = parseInt($('.j-max-points input').val());
+        filterfromtimeinput.val('');
+        filtertotimeinput.val('');
+        filterfromtime = null;
+        filtertotime = null;
+
         showMap(currrent_user);
     });
 
