@@ -15,6 +15,11 @@ var animSent = false;
 
 var addGeos = [];
 
+var filterfromtimeinput;
+var filtertotimeinput;
+var filterfromtime = null;
+var filtertotime = null;
+
 $(document.ready = function(){
     $('.j-max-points input').val(max_points);
 
@@ -112,6 +117,9 @@ $(document.ready = function(){
                 $('.j-anim-sent a').attr('title', 'Гео-данные не передаются');
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-signal').addClass('glyphicon-ban-circle');
                 $('.j-anim-sent a').css('color', '#9d9d9d');
+
+                // передать оставшиеся точки
+                sentLocation();
             } else {
                 sent_geo = true;
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
@@ -166,6 +174,11 @@ $(document.ready = function(){
             $('#friend_map').html($('#radar-log').html());
         });
     }
+
+    // датапикеры
+    $.datetimepicker.setLocale('ru');
+    filterfromtimeinput = $('#j-dt-from').datetimepicker();
+    filtertotimeinput   = $('#j-dt-to').datetimepicker();
 });
 
 function setFriend(obj) {
@@ -210,6 +223,14 @@ function showMap(userId)
         url: '/geo/points?token=' + _token,
         id: userId
     };
+
+    if (filterfromtime) {
+        data.from = filterfromtime;
+    }
+
+    if (filtertotime) {
+        data.to = filtertotime;
+    }
 
     $.post('/curl.php', data, function (data) {
         if (undefined == data.points) {
@@ -278,6 +299,14 @@ function showMapVectors(userId)
         url: '/geo/vectors?token=' + _token,
         id: userId
     };
+
+    if (filterfromtime) {
+        data.from = filterfromtime;
+    }
+
+    if (filtertotime) {
+        data.to = filtertotime;
+    }
 
     $.post('/curl.php', data, function (data) {
         if (undefined == data.points) {
@@ -452,4 +481,20 @@ function sentLocation() {
 
 function supportGeo() {
     return !!navigator.geolocation;
+}
+
+function setTimeFilter() {
+    var from = filterfromtimeinput.datetimepicker('getValue');
+    if (from) {
+        filterfromtime = Math.floor(from.getTime() / 1000);
+    }
+
+    var to = filtertotimeinput.datetimepicker('getValue');
+    if (to) {
+        filtertotime = Math.floor(to.getTime() / 1000);
+    }
+
+    showMap(currrent_user);
+
+    return false;
 }
