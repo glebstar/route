@@ -245,7 +245,7 @@ function showMap(userId)
 
         if (0 == data.points.length) {
             // нет данных
-            $('#friend_map').html('<span class="label label-info">Нет данных для данного пользователя и установленного фильтра</span><p style="margin-top: 20px;"><img src="/i/logo.png"> </p>');
+            $('#friend_map').html('<h3><span class="label label-info">Нет данных для данного пользователя и установленного фильтра</span></h3><p style="margin-top: 20px;"><img src="/i/logo.png"> </p>');
             return false;
         }
 
@@ -327,7 +327,7 @@ function showMapVectors(userId)
 
         if (0 == data.points.length) {
             // нет данных
-            $('#friend_map').html('<span class="label label-info">Нет данных для данного пользователя и установленного фильтра</span><p style="margin-top: 20px;"><img src="/i/logo.png"> </p>');
+            $('#friend_map').html('<h3><span class="label label-info">Нет данных для данного пользователя и установленного фильтра</span></h3><p style="margin-top: 20px;"><img src="/i/logo.png"> </p>');
             return false;
         }
 
