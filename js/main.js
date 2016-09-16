@@ -173,6 +173,14 @@ function setFriend(obj) {
     $('.j-friend-item').removeClass('active');
     $(obj).addClass('active');
 
+    $('.j-change-map').removeClass('active');
+    $('.j-show-log').removeClass('active');
+    if ('vector' == current_map) {
+        $('.j-change-map-vector').addClass('active');
+    } else {
+        $('.j-change-map-point').addClass('active');
+    }
+
     currrent_user = $(obj).attr('data-id');
 
     showMap(currrent_user);
