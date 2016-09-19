@@ -9,6 +9,7 @@ var support_geo = false;
 var sent_geo = false;
 var timerAddGeo = 0;
 var timerSentGeo = 0;
+var lastSentTime = 0;
 var wakeLock;
 
 var animSent = false;
@@ -127,6 +128,7 @@ $(document.ready = function(){
                 sentLocation();
             } else {
                 sent_geo = true;
+                lastSentTime = Math.floor(Date.now() / 1000);
                 $('.j-set-geo a').html('<i class="glyphicon glyphicon-off"></i> Остановить отправку');
                 $('.j-anim-sent a').attr('title', 'Гео-данные передаются');
                 $('.j-anim-sent a i.glyphicon').removeClass('glyphicon-ban-circle').addClass('glyphicon-signal');
@@ -144,8 +146,9 @@ $(document.ready = function(){
 
                 timerAddGeo = navigator.geolocation.watchPosition(function (position) {
                     var coord = position.coords.latitude + ', ' + position.coords.longitude;
+                    var currentTime = Math.floor(Date.now() / 1000);
                     addGeos.push({
-                        time: Math.floor(Date.now() / 1000),
+                        time: currentTime,
                         geo: coord
                     });
                     var date = new Date();
@@ -159,6 +162,12 @@ $(document.ready = function(){
                         animSent = true;
                         $('.j-anim-sent a').css('color', '#fff');
                     }
+
+                    // отправка данных на сервер в заблокированном режиме.
+                    if ((currentTime - lastSentTime) >= 120) {
+                        sentLocation();
+                    }
+
                 }, function(e){
                     $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : ' + e.message  + '</p>');
                     return false;
@@ -496,6 +505,7 @@ function sentLocation() {
             if (supportsVibrate) {
                 navigator.vibrate(1200);
             }
+            lastSentTime = Math.floor(Date.now() / 1000);
         } else {
             $('.log-title').after('<p><span class="label label-danger"> ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ' </span> : <b>Ошибка отправки на сервер</b></p>');
         }
