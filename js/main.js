@@ -36,13 +36,13 @@ $(document.ready = function(){
 
         for(key in data.users) {
             if (data.users[key].approved) {
-                $('#i-watching-sep').after('<li class="j-friend-item" data-id="' + data.users[key].user_id + '" onclick="return setFriend(this);"><a href="#">' + data.users[key].name + '</a></li>');
+                $('#i-watching-sep').after('<li class="j-friend-item" data-id="' + data.users[key].id + '" onclick="return setFriend(this);"><a href="#">' + data.users[key].name + '</a></li>');
             }
         }
 
         for(key in data.users) {
             if (! data.users[key].approved) {
-                $('#i-watching-not-sp-sep').after('<li class="j-friend-item disabled" data-id="' + data.users[key].user_id + '" onclick="return false;"><a href="#">' + data.users[key].name + '</a></li>');
+                $('#i-watching-not-sp-sep').after('<li class="j-friend-item disabled" data-id="' + data.users[key].id + '" onclick="return false;"><a href="#">' + data.users[key].name + '</a></li>');
             }
         }
 
@@ -423,6 +423,36 @@ function showMapVectors(userId)
 
                     ballonFooter = points[key].totime;
 
+                    var myCircle = new ymaps.Circle([
+                        // Координаты центра круга.
+                        [points[key].lat, points[key].lon],
+                        // Радиус круга в метрах.
+                        20
+                    ], {
+                        // Описываем свойства круга.
+                        // Содержимое балуна.
+                        balloonContent: ballon,
+                        balloonContentFooter: ballonFooter,
+                    }, {
+                        // Задаем опции круга.
+                        // Включаем возможность перетаскивания круга.
+                        draggable: false,
+                        // Цвет заливки.
+                        // Последний байт (77) определяет прозрачность.
+                        // Прозрачность заливки также можно задать используя опцию "fillOpacity".
+                        fillColor: "#f00",
+                        fillOpacity: 0.9,
+                        // Цвет обводки.
+                        strokeColor: "#fff",
+                        // Прозрачность обводки.
+                        //strokeOpacity: 0.6,
+                        // Ширина обводки в пикселях.
+                        strokeWidth: 2
+                    });
+
+                    friend_map.geoObjects.add(myCircle);
+
+                    /*
                     myGeoObject = new ymaps.GeoObject({
                         geometry: {
                             type: "Point",// тип геометрии - точка
@@ -436,6 +466,7 @@ function showMapVectors(userId)
                     });
 
                     friend_map.geoObjects.add(myGeoObject);
+                    */
                     cnt++;
                 }
 
