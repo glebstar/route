@@ -423,6 +423,7 @@ function showMapVectors(userId)
 
                     ballonFooter = points[key].totime;
 
+                    /*
                     var myCircle = new ymaps.Circle([
                         // Координаты центра круга.
                         [points[key].lat, points[key].lon],
@@ -451,8 +452,8 @@ function showMapVectors(userId)
                     });
 
                     friend_map.geoObjects.add(myCircle);
+                    */
 
-                    /*
                     myGeoObject = new ymaps.GeoObject({
                         geometry: {
                             type: "Point",// тип геометрии - точка
@@ -466,7 +467,6 @@ function showMapVectors(userId)
                     });
 
                     friend_map.geoObjects.add(myGeoObject);
-                    */
                     cnt++;
                 }
 
